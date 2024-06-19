@@ -2,30 +2,29 @@ import { useEffect, useState } from 'react';
 import config from '../config'
 import NewsList from './NewsList'
 
-const NewsBoard = () => {
+const NewsBoard = ({category}) => {
     const [articles, setArticles] = useState([])
     const [error, setError] = useState(null)
 
-    useEffect(() => {
-        const fetchArticles = async () => {
-            const apiKey = config.apiKey;
-            let url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`
-            try {
-                const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error(`Network response was not ok: ${response.statusText}`);
-                }
-                const data = await response.json();
-                console.log('Fetched data:', data); // Log the fetched data
+    const fetchArticles = async () => {
+        const apiKey = config.apiKey;
+        let url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${apiKey}`
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            if (data.status === 'ok') {
                 setArticles(data.articles);
-                setError(null); // Clear any previous error
-            } catch (error) {
-                setError(error.message);
-                setArticles([]); // Clear articles on error
+            } else {
+                setError('Error fetching news');
             }
-        };
+        } catch (err) {
+            setError('Error fetching news');
+        }
+    };
+
+    useEffect(() => {
         fetchArticles();
-    }, []);
+    }, [category]);
 
     return (
         <div className='text-center p-20'>
