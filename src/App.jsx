@@ -11,7 +11,6 @@ function App() {
     <div>
       <Navbar setCategory={setCategory} />
       <NewsBoard category={category} />
-      <NewsItem />
     </div>
   )
 }

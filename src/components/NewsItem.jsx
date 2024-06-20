@@ -1,4 +1,4 @@
-import fallbackImage from '../assets/image_not_found.jpg'
+import fallbackImage from '../assets/news.jpg'
 
 const NewsItem = ({ title, description, src, url }) => {
     const truncatedTitle =
@@ -18,7 +18,7 @@ const NewsItem = ({ title, description, src, url }) => {
             </figure>
             <div className="card-body items-center text-center">
                 <h2 className="card-title">{truncatedTitle}</h2>
-                <p>{description?.slice(0, 100)}</p>
+                <p>{description?.slice(0, 100)}...</p>
                 <div className="card-actions">
                     <a href={url} className="btn btn-primary">
                         Read More

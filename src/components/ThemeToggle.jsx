@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 const ThemeToggle = () => {
-    const [theme, setTheme] = useState('dark'); // Default theme
+    const [theme, setTheme] = useState('light'); // Default theme
 
     useEffect(() => {
         const savedTheme = localStorage.getItem('theme');
@@ -12,7 +12,7 @@ const ThemeToggle = () => {
     }, []);
 
     const toggleTheme = () => {
-        const newTheme = theme === 'dark' ? 'light' : 'dark';
+        const newTheme = theme === 'light' ? 'dark' : 'light';
         setTheme(newTheme);
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme); // Save theme preference
