@@ -11,7 +11,7 @@ const NewsBoard = ({ category }) => {
     const pageSize = 20;
 
     const fetchArticles = async (page = 1) => {
-        const apiKey = config.apiKey;
+        const apiKey = import.meta.env.VITE_API_KEY;
         let url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&pageSize=${pageSize}&page=${page}&apiKey=${apiKey}`;
         try {
             const response = await fetch(url);
