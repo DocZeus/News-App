@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import config from "../config";
 import NewsList from "./NewsList";
 import Pagination from "./Pagination";
 
