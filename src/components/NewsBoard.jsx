@@ -9,8 +9,8 @@ const NewsBoard = ({ category, searchTerm }) => {
     const { articles, error, currentPage, totalResults, pageSize } = useSelector((state) => state.news);
 
     const fetchArticles = async (page = 1) => {
-        const apiKey = import.meta.env.VITE_API_KEY;
-        let url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&pageSize=${pageSize}&page=${page}&apiKey=${apiKey}`;
+        const apiUrl = import.meta.env.VITE_BACKEND_URL;
+        const url = `${apiUrl}/api/news?category=${category}&pageSize=${pageSize}&page=${page}&q=${searchTerm || ''}`;
         try {
             const response = await fetch(url);
             const data = await response.json();
