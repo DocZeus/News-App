@@ -1,23 +1,23 @@
-import { useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { setSelectedCategory, setSearchVisible, setSearchTerm } from '../hooks/navbarSlice';
 import ThemeToggle, { useTheme } from "./ThemeToggle";
 
 const Navbar = ({ setCategory, onSearch }) => {
-    const [selectedCategory, setSelectedCategory] = useState("general");
-    const [searchTerm, setSearchTerm] = useState("");
-    const [searchVisible, setSearchVisible] = useState(false);
+    const dispatch = useDispatch();
+    const { selectedCategory, searchTerm, searchVisible } = useSelector((state) => state.navbar);
     const { theme } = useTheme();
 
     const handleSearchClick = () => {
-        setSearchVisible(!searchVisible);
+        dispatch(setSearchVisible(!searchVisible));
     };
 
     const handleSearchChange = (e) => {
-        setSearchTerm(e.target.value);
+        dispatch(setSearchTerm(e.target.value));
         onSearch(e.target.value.trim());
     };
 
     const handleCategoryClick = (category) => {
-        setSelectedCategory(category);
+        dispatch(setSelectedCategory(category));
         setCategory(category);
     };
 
@@ -103,7 +103,7 @@ const Navbar = ({ setCategory, onSearch }) => {
                 </ul>
             </div>
             {/* Search and Theme Toggle */}
-            <div className="navbar-end">
+            <div className="navbar-end search">
                 {searchVisible && (
                     <form className="mr-4">
                         <input

@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setArticles, setError, setCurrentPage, setTotalResults } from "../hooks/newsSlice";
 import NewsList from "./NewsList";
 import Pagination from "./Pagination";
 
 const NewsBoard = ({ category, searchTerm }) => {
-    const [articles, setArticles] = useState([]);
-    const [error, setError] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalResults, setTotalResults] = useState(0);
-    const pageSize = 20;
+    const dispatch = useDispatch();
+    const { articles, error, currentPage, totalResults, pageSize } = useSelector((state) => state.news);
 
     const fetchArticles = async (page = 1) => {
         const apiKey = import.meta.env.VITE_API_KEY;
@@ -19,13 +18,13 @@ const NewsBoard = ({ category, searchTerm }) => {
                 const filteredArticles = data.articles.filter(
                     (article) => article.title && article.description
                 );
-                setArticles(filteredArticles);
-                setTotalResults(data.totalResults);
+                dispatch(setArticles(filteredArticles));
+                dispatch(setTotalResults(data.totalResults));
             } else {
-                setError("Error fetching news");
+                dispatch(setError('Error fetching news'));
             }
         } catch (err) {
-            setError("Error fetching news");
+            dispatch(setError('Error fetching news'));
         }
     };
 
@@ -39,14 +38,14 @@ const NewsBoard = ({ category, searchTerm }) => {
                 article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 article.description.toLowerCase().includes(searchTerm.toLowerCase())
             );
-            setArticles(filteredArticles);
+            dispatch(setArticles(filteredArticles));
         } else {
             fetchArticles(currentPage);
         }
     }, [searchTerm]);
 
     const handlePageChange = (page) => {
-        setCurrentPage(page);
+        dispatch(setCurrentPage(page));
     };
 
     return (
