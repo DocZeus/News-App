@@ -6,9 +6,16 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-const allowedOrigins = ['http://your-frontend-url.com', 'https://your-frontend-url.com'];
+const allowedOrigins = ['http://localhost:5173', 'https://media-varsity.vercel.app'];
 app.use(cors({
-    origin: allowedOrigins
+    origin: function (origin, callback) {
+        // Check if the origin is in the allowed origins array or if it's undefined (for local development)
+        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    }
 }));
 
 app.get('/api/news', async (req, res) => {
