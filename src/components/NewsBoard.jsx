@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import NewsList from "./NewsList";
 import Pagination from "./Pagination";
 
-const NewsBoard = ({ category }) => {
+const NewsBoard = ({ category, searchTerm }) => {
     const [articles, setArticles] = useState([]);
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
@@ -29,13 +29,25 @@ const NewsBoard = ({ category }) => {
         }
     };
 
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-    };
-
     useEffect(() => {
         fetchArticles(currentPage);
     }, [category, currentPage]);
+
+    useEffect(() => {
+        if (searchTerm) {
+            const filteredArticles = articles.filter(article =>
+                article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                article.description.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            setArticles(filteredArticles);
+        } else {
+            fetchArticles(currentPage);
+        }
+    }, [searchTerm]);
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
 
     return (
         <div className="text-center p-20">

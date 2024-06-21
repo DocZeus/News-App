@@ -5,10 +5,16 @@ import NewsBoard from "./components/NewsBoard"
 
 function App() {
   const [category, setCategory] = useState("general")
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+  }
+
   return (
     <div>
-      <Navbar setCategory={setCategory} />
-      <NewsBoard category={category} />
+      <Navbar onSearch={handleSearch} setCategory={setCategory} />
+      <NewsBoard searchTerm={searchTerm} category={category} />
     </div>
   )
 }

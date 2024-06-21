@@ -1,8 +1,20 @@
 import { useState } from "react";
-import ThemeToggle from "./ThemeToggle";
+import ThemeToggle, { useTheme } from "./ThemeToggle";
 
-const Navbar = ({ setCategory }) => {
+const Navbar = ({ setCategory, onSearch }) => {
     const [selectedCategory, setSelectedCategory] = useState("general");
+    const [searchTerm, setSearchTerm] = useState("");
+    const [searchVisible, setSearchVisible] = useState(false);
+    const { theme } = useTheme();
+
+    const handleSearchClick = () => {
+        setSearchVisible(!searchVisible);
+    };
+
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+        onSearch(e.target.value.trim());
+    };
 
     const handleCategoryClick = (category) => {
         setSelectedCategory(category);
@@ -10,8 +22,8 @@ const Navbar = ({ setCategory }) => {
     };
 
     return (
-        <div className="navbar bg-zinc-900 text-white">
-            <div className="navbar-start">
+        <div className="navbar bg-zinc-900">
+            <div className="navbar-start text-white">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
                         <svg
@@ -57,11 +69,14 @@ const Navbar = ({ setCategory }) => {
                         ))}
                     </ul>
                 </div>
-                <button className="btn btn-primary rounded-3xl">
+                <button
+                    onClick={handleSearchClick}
+                    className="btn btn-primary rounded-3xl"
+                >
                     <a className="text-2xl">Media Varsity</a>
                 </button>
             </div>
-            <div className="navbar-center hidden lg:flex">
+            <div className="navbar-center hidden lg:flex text-white">
                 <ul className="menu menu-horizontal px-1">
                     {[
                         { name: "General", value: "general" },
@@ -77,7 +92,7 @@ const Navbar = ({ setCategory }) => {
                                 onClick={() => handleCategoryClick(category.value)}
                                 className={
                                     selectedCategory === category.value
-                                        ? "bg-primary text-white"
+                                        ? "bg-primary text-black"
                                         : ""
                                 }
                             >
@@ -87,8 +102,24 @@ const Navbar = ({ setCategory }) => {
                     ))}
                 </ul>
             </div>
+            {/* Search and Theme Toggle */}
             <div className="navbar-end">
-                <button className="btn btn-ghost btn-circle">
+                {searchVisible && (
+                    <form className="mr-4">
+                        <input
+                            type="text"
+                            placeholder="Search..."
+                            value={searchTerm}
+                            onChange={handleSearchChange}
+                            className="input input-bordered input-primary"
+                            style={{ color: theme === "dark" ? "text-white" : "text-black" }}
+                        />
+                    </form>
+                )}
+                <button
+                    onClick={handleSearchClick}
+                    className="btn btn-ghost btn-circle text-white"
+                >
                     <a>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -106,7 +137,9 @@ const Navbar = ({ setCategory }) => {
                         </svg>
                     </a>
                 </button>
-                <ThemeToggle />
+                <div className="text-white">
+                    <ThemeToggle />
+                </div>
             </div>
         </div>
     );
