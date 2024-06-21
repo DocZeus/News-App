@@ -20,7 +20,6 @@ function App() {
         <NewsBoard searchTerm={searchTerm} category={category} />
       </div>
     </Provider>
-
   )
 }
 
