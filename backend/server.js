@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3001;
 const allowedOrigins = ['http://localhost:5173', 'https://media-varsity.vercel.app'];
 app.use(cors({
     origin: function (origin, callback) {
-        // Check for frontendurl
+        // Check for frontend-URL
         if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
             callback(null, true);
         } else {

@@ -16,7 +16,7 @@ const NewsBoard = ({ category, searchTerm }) => {
             const data = await response.json();
             if (data.status === "ok") {
                 const filteredArticles = data.articles.filter(
-                    (article) => article.title && article.description
+                    (article) => article.title && article.title!=='[Removed]' && article.description
                 );
                 dispatch(setArticles(filteredArticles));
                 dispatch(setTotalResults(data.totalResults));
