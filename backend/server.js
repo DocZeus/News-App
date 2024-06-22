@@ -1,7 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
-require('dotenv').config();
+const dotenv = require('dotenv');
+
+// Load environment variables from .env file
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -10,7 +13,7 @@ const allowedOrigins = ['http://localhost:5173', 'https://media-varsity.vercel.a
 app.use(cors({
     origin: function (origin, callback) {
         // Check for frontend-URL
-        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+        if (allowedOrigins.includes(origin) || !origin) {
             callback(null, true);
         } else {
             callback(new Error('Not allowed by CORS'));
